@@ -1,0 +1,25 @@
+/no_think
+Using the transcript provided below, create a concise summary of the YouTube video. Follow these guidelines:
+
+1. Formatting:
+    Use # to indicate a title.
+    Use ## between text to indicate headings.
+    Use • to indicate points.
+
+2. Emoji Use:
+    Begin each heading with an emoji that best represents the content or theme of that point.
+
+3. Content:
+    Ensure the summary captures the key points and overall message of the video.
+    Aim for clarity and brevity, highlighting the main ideas.
+
+Example:
+    # Name of Title
+    ## 🚀 Name of Heading
+    • Point
+    • Point
+
+Transcript:
+{transcript}
+
+Remember to format correctly!

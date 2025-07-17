@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Video Summarizer",
+  "version": "1.0",
+  "description": "Summarizes YouTube Videos",
+  "permissions": ["activeTab", "scripting", "tabs", "storage"],
+  "host_permissions": ["*://*.youtube.com/*", "*://localhost:8000/*"],
+  "action": {
+    "default_popup": "dist/index.html",
+    "default_icon": "icons/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/watch*"],
+      "js": ["content.js"]
+    }
+  ]
+}

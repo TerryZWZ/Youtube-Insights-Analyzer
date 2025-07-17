@@ -1,0 +1,9 @@
+fastapi[all]
+uvicorn
+youtube-transcript-api
+requests
+pydantic
+python-dotenv
+groq
+ollama
+tiktoken
