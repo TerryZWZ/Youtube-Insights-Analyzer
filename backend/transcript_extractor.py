@@ -30,21 +30,22 @@ def get_transcript(video_url: str) -> str:
     """
     Fetch and return the transcript text for a given YouTube video URL.
     """
-    languages=["en"]
+    languages = ["en"]
     video_id = extract_video_id(video_url)
+    ytt_api = YouTubeTranscriptApi()
 
     try:
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=languages)
+        fetched_transcript = ytt_api.fetch(video_id, languages=languages)
     except (TranscriptsDisabled, NoTranscriptFound):
-        transcript_search = YouTubeTranscriptApi.list_transcripts(video_id)
+        transcript_search = ytt_api.list(video_id)
 
         try:
             generated_transcript = transcript_search.find_generated_transcript(languages)
-            transcript_list = generated_transcript.fetch()
+            fetched_transcript = generated_transcript.fetch()
         except NoTranscriptFound:
             raise ValueError("Transcript not available for this video.")
     except Exception as e:
         raise ValueError("An error occurred while fetching the transcript.") from e
 
-    transcript_text = " ".join(segment["text"] for segment in transcript_list)
+    transcript_text = " ".join(snippet.text for snippet in fetched_transcript)
     return transcript_text
