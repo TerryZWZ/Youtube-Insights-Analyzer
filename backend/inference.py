@@ -1,26 +1,60 @@
+import json
 import os
 import requests
 import config
-from ollama import Client
 from groq import Groq
 
 
-def call_ollama_inference(prompt: list) -> str:
+def call_llama_server_inference(prompt: list) -> str:
     """
-    Call the local inference service (Ollama) to get a summary.
+    Call the local inference service (llama-server) to get a summary.
     """
-    ollama_url = os.environ.get("OLLAMA_URL", config.OLLAMA_URL)
+    llama_url = os.environ.get(config.LLAMA_SERVER_URL)
+    llama_model = os.environ.get(config.LLAMA_SERVER_MODEL)
+    llama_api_key = os.environ.get(config.LLAMA_API_KEY)
 
     try:
-        client = Client(host=ollama_url)
-        response = client.chat(model=config.OLLAMA_MODEL, messages=prompt, stream=True)
+        if not llama_url:
+            raise ValueError("LLAMA_SERVER_URL is not configured.")
+        
+        if not llama_model:
+            raise ValueError("LLAMA_SERVER_MODEL is not configured.")
 
-        for chunk in response:
-            yield chunk["message"]["content"]
+        endpoint = f"{llama_url.rstrip('/')}/v1/chat/completions"
+        headers = {"Content-Type": "application/json"}
+        
+        if llama_api_key:
+            headers["Authorization"] = f"Bearer {llama_api_key}"
+
+        payload = {"model": llama_model, "messages": prompt, "stream": True}
+
+        with requests.post(
+            endpoint, headers=headers, json=payload, stream=True, timeout=60
+        ) as response:
+            response.raise_for_status()
+            for line in response.iter_lines(decode_unicode=True):
+                if not line:
+                    continue
+                if line.startswith("data:"):
+                    line = line[len("data:") :].strip()
+                if line == "[DONE]":
+                    break
+
+                try:
+                    data = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                choice = data.get("choices", [{}])[0]
+                delta = choice.get("delta") or choice.get("message") or {}
+                content = delta.get("content")
+                
+                if content:
+                    yield content
     except requests.RequestException as e:
-        raise Exception(f"Ollama request failed: {e}")
+        raise Exception(f"Llama server request failed: {e}")
     except Exception as e:
-        raise Exception(f"Ollama inference failed: {e}")
+        raise Exception(f"Llama server inference failed: {e}")
 
 
 def call_groq_inference(prompt: list) -> str:

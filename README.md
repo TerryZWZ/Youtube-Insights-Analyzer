@@ -58,7 +58,7 @@
 - requests                  API requests
 - youtube-transcript-api    API for YouTube transcripts
 - groq                      API for Groq
-- ollama                    API for Ollama
+- llama-server              API for llama-server
 
 # Backend Content
 
@@ -85,8 +85,8 @@
     - Otherwise attempt to use generated transcript
     - Joins the transcript into one string
 
-- call_ollama_inference()
-    - Uses Groq API key
+- call_llama_server_inference()
+    - Uses llama-server API key
     - API call with parameters: message, model
     - Allow text streaming
     - Receive response JSON

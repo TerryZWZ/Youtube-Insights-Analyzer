@@ -6,9 +6,10 @@ Create a .env file to store these values
 """
 load_dotenv()
 
-# Ollama configuration
-OLLAMA_URL = os.getenv("OLLAMA_URL")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
+# Llama server configuration
+LLAMA_SERVER_URL = os.getenv("LLAMA_SERVER_URL")
+LLAMA_SERVER_MODEL = os.getenv("LLAMA_SERVER_MODEL")
+LLAMA_API_KEY = os.getenv("LLAMA_API_KEY")
 
 # Groq configuration
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")

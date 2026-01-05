@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, HttpUrl
 from transcript_extractor import get_transcript
-from inference import call_groq_inference, call_ollama_inference
+from inference import call_groq_inference, call_llama_server_inference
 import tiktoken
 import uvicorn
 import logging
@@ -66,11 +66,11 @@ async def summarize_video(request: SummarizationRequest):
         logger.error(f"Prompt setup error: {e}")
         raise HTTPException(status_code=500, detail=f"Prompt setup error: {str(e)}")
 
-    # Define a generator to stream for Ollama or whole for Groq
+    # Define a generator to stream for llama-server or whole for Groq
     def generate():
         if request.use_local:
-            logger.info(f"Ollama called.")
-            for chunk in call_ollama_inference(prompt):
+            logger.info("llama-server called.")
+            for chunk in call_llama_server_inference(prompt):
                 yield chunk
         else:
             logger.info(f"Groq called.")

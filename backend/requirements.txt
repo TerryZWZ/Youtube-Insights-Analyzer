@@ -5,5 +5,4 @@ requests
 pydantic
 python-dotenv
 groq
-ollama
 tiktoken
