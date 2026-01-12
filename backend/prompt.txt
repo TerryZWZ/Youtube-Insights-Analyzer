@@ -1,25 +1,46 @@
-/no_think
-Using the transcript provided below, create a concise summary of the YouTube video. Follow these guidelines:
+Using the transcript provided below, create an insight-dense summary and an incremental value analysis which should describe what extra value the full video provides beyond the summary.
+
+Follow these guidelines:
 
 1. Formatting:
     Use # to indicate a title.
     Use ## between text to indicate headings.
     Use • to indicate points.
+    Use this exact section order:
+        # <title>
+        ## 🧠 <Summary Topic> (repeat as needed; you can have consecutive summary topics)
+        ## 🔍 Incremental Value (Full Video)
 
 2. Emoji Use:
     Begin each heading with an emoji that best represents the content or theme of that point.
 
 3. Content:
-    Ensure the summary captures the key points and overall message of the video.
-    Aim for clarity and brevity, highlighting the main ideas.
+    Summary section:
+        Capture the key points and overall message with concrete specifics (methods, claims, steps, numbers) when present.
+        Avoid LLM-ish contrasts like “it’s not X, it’s Y”.
+    Incremental value section:
+        Explain what additional, specific information a viewer would gain by watching the full video that the summary cannot fully cover.
+        Include items like: detailed walkthrough steps, examples/case studies, edge cases/troubleshooting, nuance/rationale, and any visuals/demos explicitly referenced in the transcript.
+        Do not speculate about visuals; only mention visuals/demos if the transcript indicates them.
 
 Example:
     # Name of Title
-    ## 🚀 Name of Heading
+    ## 🍎 Topic A
     • Point
     • Point
+    ## 🍏 Topic B
+    • Point
+    • Point
+    ## 🔍 Incremental Value (Full Video)
+    • Visuals/demos you would see (if mentioned)
+    • Extra details beyond summary
+
+Video Metadata:
+Title: {title}
+Channel: {channel}
+Duration (seconds): {duration_seconds}
 
 Transcript:
 {transcript}
 
-Remember to format correctly!
+Remember to format correctly and return only the formatted output (no extra commentary).

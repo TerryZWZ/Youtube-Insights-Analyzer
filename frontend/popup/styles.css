@@ -172,6 +172,23 @@ to {
     color: #444;
 }
 
+.summary-line {
+    display: block;
+}
+
+.summary-spacer {
+    height: 0.6rem;
+}
+
+.summary-list {
+    margin: 0.35rem 0;
+    padding-left: 1.25rem;
+}
+
+.summary-list li {
+    margin: 0.15rem 0;
+}
+
 .error {
     margin-top: 1rem;
     padding: 1rem;

@@ -1,9 +1,6 @@
 import os
 from dotenv import load_dotenv
 
-"""
-Create a .env file to store these values
-"""
 load_dotenv()
 
 # Llama server configuration

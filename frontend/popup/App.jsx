@@ -108,53 +108,101 @@ const App = () => {
 
   // Function to format summary into JSX
   const renderSummary = () => {
-    return summary
-      .replace(/<think>.*?<\/think>\s*\n?/gs, "")
-      .split("\n")
-      .map((line, index) => {
+    const cleaned = summary.replace(/<think>.*?<\/think>\s*\n?/gs, "");
+    const lines = cleaned.split(/\r?\n/);
 
-        // To prevent double formatting with **
-        let trimmedLine = line.slice(2, -2).trim();
-        let doubleFormatted = false;
+    const elements = [];
+    let listBuffer = [];
 
-        if (line.startsWith("**") && line.endsWith("**") && (trimmedLine.startsWith("# ") || trimmedLine.startsWith("## ") || trimmedLine.startsWith("### ") || line.startsWith("•") || line.startsWith("-"))) {
-          doubleFormatted = true;
+    const flushList = (keyBase) => {
+      if (!listBuffer.length) return;
+      const items = listBuffer;
+      listBuffer = [];
+      elements.push(
+        <ul key={`ul-${keyBase}`} className="summary-list">
+          {items.map((text, i) => (
+            <li key={`li-${keyBase}-${i}`}>{renderBoldText(text)}</li>
+          ))}
+        </ul>
+      );
+    };
+
+    lines.forEach((rawLine, index) => {
+      let line = rawLine;
+
+      // If a structural line is wrapped in **...**, unwrap it to avoid double-formatting
+      if (line.startsWith("**") && line.endsWith("**")) {
+        const inner = line.slice(2, -2).trim();
+
+        if (
+          inner.startsWith("# ") ||
+          inner.startsWith("## ") ||
+          inner.startsWith("### ") ||
+          inner.startsWith("•") ||
+          inner.startsWith("-") ||
+          inner.startsWith("+") ||
+          inner.startsWith("*")
+        ) {
+          line = inner;
+        }
+      }
+
+      // Headings
+      if (line.startsWith("# ")) {
+        flushList(index);
+        elements.push(<h2 key={`h2-${index}`}>{renderBoldText(line.substring(2))}</h2>);
+        return;
+      }
+
+      if (line.startsWith("## ")) {
+        flushList(index);
+        elements.push(<h3 key={`h3-${index}`}>{renderBoldText(line.substring(3))}</h3>);
+        return;
+      }
+
+      if (line.startsWith("### ")) {
+        flushList(index);
+        elements.push(<h4 key={`h4-${index}`}>{renderBoldText(line.substring(4))}</h4>);
+        return;
+      }
+
+      // Bullets: •, -, +, *
+      const bulletMatch = line.match(/^\s*([•*+-])\s+(.*)$/);
+      if (bulletMatch) {
+        const marker = bulletMatch[1];
+        const content = (bulletMatch[2] || "").trim();
+
+        // Some models emit multiple sub-bullets on one line
+        if (marker === "+" && /\s\+\s/.test(content)) {
+          const segments = content.split(/\s+\+\s+/).map((s) => s.trim()).filter(Boolean);
+          const colonSegments = segments.filter((s) => /^[A-Z0-9][^:]{0,70}:/.test(s)).length;
+
+          if (segments.length >= 2 && colonSegments >= 2) {
+            segments.forEach((s) => listBuffer.push(s));
+            return;
+          }
         }
 
-        if (!doubleFormatted) {
+        listBuffer.push(content);
+        return;
+      }
 
-          // Check for a title (lines starting with #)
-          if (line.startsWith("# ")) {
-            return <h2 key={index}>{renderBoldText(line.substring(2))}</h2>;
-          }
+      // Normal lines / spacing
+      flushList(index);
+      if (!line.trim()) {
+        elements.push(<div key={`sp-${index}`} className="summary-spacer" />);
+        return;
+      }
 
-          // Check for a heading (lines starting with ## )
-          else if (line.startsWith("## ")) {
-            return <h3 key={index}>{renderBoldText(line.substring(2))}</h3>;
-          }
+      elements.push(
+        <div key={`ln-${index}`} className="summary-line">
+          {renderBoldText(line)}
+        </div>
+      );
+    });
 
-          // Check for a heading (lines starting with ### )
-          else if (line.startsWith("### ")) {
-            return <h4 key={index}>{renderBoldText(line.substring(2))}</h4>;
-          }
-
-          // Check for bullet points (lines starting with • or -)
-          else if (line.startsWith("•") || line.startsWith("-")) {
-            return (
-              <ul key={index}>
-                <li>{renderBoldText(line.substring(2))}</li>
-              </ul>
-            );
-          }
-        }
-
-        // Render line
-        return (
-          <span key={index}>
-            {renderBoldText(line)}
-          </span>
-        );
-      });
+    flushList("end");
+    return elements;
   };
 
   return (

@@ -1,0 +1,14 @@
+# pip install torch torchvision --force-reinstall --index-url https://download.pytorch.org/whl/cu130
+uv
+unsloth
+trl
+datasets
+transformers
+accelerate
+bitsandbytes
+scikit-learn
+rapidfuzz
+tqdm
+youtube-transcript-api
+yt-dlp
+# uv pip install gguf protobuf sentencepiece mistral_common

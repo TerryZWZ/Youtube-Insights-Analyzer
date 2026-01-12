@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, HttpUrl
-from transcript_extractor import get_transcript
+from transcript_extractor import get_video_context
 from inference import call_groq_inference, call_llama_server_inference
 import tiktoken
 import uvicorn
@@ -31,6 +31,11 @@ class SummarizationRequest(BaseModel):
     use_local: bool
 
 
+def _escape_format_value(value) -> str:
+    text = "" if value is None else str(value)
+    return text.replace("{", "{{").replace("}", "}}")
+
+
 # POST request to create summary
 @app.post("/summarize")
 async def summarize_video(request: SummarizationRequest):
@@ -42,7 +47,11 @@ async def summarize_video(request: SummarizationRequest):
 
     # Retrieve transcript
     try:
-        transcript = get_transcript(request.video_url)
+        context = get_video_context(request.video_url)
+        transcript = context.get("transcript", "")
+        title = context.get("title", "")
+        channel = context.get("channel", "")
+        duration_seconds = context.get("duration_seconds", 0)
         logger.info(f"Transcript obtained successfully: {transcript[:50]}...")
     except Exception as e:
         logger.error(f"Transcript error: {e}")
@@ -56,7 +65,12 @@ async def summarize_video(request: SummarizationRequest):
         with open(prompt_file_path, "r", encoding="utf-8") as file:
             prompt_template = file.read()
 
-        content = prompt_template.format(transcript=transcript)
+        content = prompt_template.format(
+            title=_escape_format_value(title),
+            channel=_escape_format_value(channel),
+            duration_seconds=duration_seconds,
+            transcript=_escape_format_value(transcript),
+        )
         encoding = tiktoken.get_encoding("cl100k_base")
         tokens = encoding.encode(content)
         logger.info(f"Approximate token count: {int(len(tokens) * 1.15)}.")

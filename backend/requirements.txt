@@ -1,6 +1,7 @@
 fastapi[all]
 uvicorn
 youtube-transcript-api
+yt-dlp
 requests
 pydantic
 python-dotenv

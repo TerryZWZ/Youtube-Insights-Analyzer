@@ -5,9 +5,6 @@ node_modules/
 venv/
 .env
 
-# macOS system files
-.DS_Store
-
 # Windows system files
 Thumbs.db
 Desktop.ini
@@ -36,3 +33,6 @@ yarn.lock
 
 # Miscellaneous
 *.log
+dataset.jsonl
+transcripts.jsonl
+video.csv
