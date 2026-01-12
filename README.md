@@ -56,13 +56,14 @@
 - python-dotenv             Environmental Variables
 - tiktoken                  Tokenization
 - requests                  API requests
-- youtube-transcript-api    API for YouTube transcripts
-- groq                      API for Groq
-- llama-server              API for llama-server
+- youtube-transcript-api    Fetch for YouTube transcripts
+- yt-dlp                    Fetch for YouTube metadata
+- groq                      Fetch for Groq
+- llama-server              Fetch for llama-server
 
 # Backend Content
 
-- main.py → transcript_extrator.py + inference.py
+- main.py → transcript_extractor.py + inference.py
 
 - CORS middleware to allow usage in all domains
 
@@ -85,6 +86,13 @@
     - Otherwise attempt to use generated transcript
     - Joins the transcript into one string
 
+- get_video_metadata()
+    - Returns video meta-data with yt-dlp
+    - Includes title, channdel, and duration_seconds
+
+- get_video_context()
+    - Returns metadata and transcript together
+
 - call_llama_server_inference()
     - Uses llama-server API key
     - API call with parameters: message, model
@@ -97,3 +105,14 @@
     - API call with parameters: message, model, max_completion_tokens
     - Receive response JSON
     - Return response message content
+
+# Fine-tune LLM
+
+- Using Unsloth to finetune Qwen-3-4B-2507 with reinforcement learning.
+- Group Relative Policy Optimization is used as the RL method.
+
+- transcripts.py    Extracts metadata information from videos.csv (list of YouTube video IDs).
+- preprocess.py     Formats metadata information into dataset for model training.
+- prompt.py         Creates user and chat prompt format for data preprocessing.
+- reward.py         Reward system for reinforcement learning.
+- train_grpo.py     Trains LLM and quantizes the model into Q8_0 GGUF format.
