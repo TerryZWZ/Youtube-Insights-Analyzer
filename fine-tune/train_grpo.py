@@ -39,7 +39,7 @@ def main():
         max_seq_length=max_seq_length,
         dtype=None,
         load_in_4bit=True,
-        offload_embedding=False,
+        offload_embedding=True,
     )
 
     model = FastLanguageModel.get_peft_model(
@@ -65,9 +65,9 @@ def main():
         warmup_ratio = 0.1,
         lr_scheduler_type = "linear",
         optim = "adamw_8bit",
-        logging_steps = 1,
+        logging_steps = 10,
         per_device_train_batch_size = 1,
-        gradient_accumulation_steps = 1,
+        gradient_accumulation_steps = 2,
         num_generations = 2,
         max_prompt_length = max_prompt_length,
         max_completion_length = max_completion_length,

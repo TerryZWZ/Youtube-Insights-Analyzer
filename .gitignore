@@ -4,6 +4,7 @@ node_modules/
 # Python virtual environments
 venv/
 .env
+__pycache__/
 
 # Windows system files
 Thumbs.db
@@ -33,6 +34,12 @@ yarn.lock
 
 # Miscellaneous
 *.log
+outputs/
+unsloth_compiled_cache/
+qwen-3-4b-yt/
+qwen-3-4b-yt-gguf/
 dataset.jsonl
 transcripts.jsonl
-video.csv
+videos.csv
+result.txt
+*.gguf
