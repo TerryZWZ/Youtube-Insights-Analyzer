@@ -1,3 +1,14 @@
+# Fine-tune LLM
+
+- Using Unsloth to finetune Qwen-3-4B-2507 with reinforcement learning.
+- Group Relative Policy Optimization is used as the RL method.
+
+- transcripts.py:   Extracts metadata information from videos.csv (list of YouTube video IDs).
+- preprocess.py:    Formats metadata information into dataset for model training.
+- prompt.py:        Creates user and chat prompt format for data preprocessing.
+- reward.py:        Reward system for reinforcement learning.
+- train_grpo.py:    Trains LLM and quantizes the model into Q8_0 GGUF format.
+
 # Frontend Setup
 
 - React framework
@@ -105,14 +116,3 @@
     - API call with parameters: message, model, max_completion_tokens
     - Receive response JSON
     - Return response message content
-
-# Fine-tune LLM
-
-- Using Unsloth to finetune Qwen-3-4B-2507 with reinforcement learning.
-- Group Relative Policy Optimization is used as the RL method.
-
-- transcripts.py    Extracts metadata information from videos.csv (list of YouTube video IDs).
-- preprocess.py     Formats metadata information into dataset for model training.
-- prompt.py         Creates user and chat prompt format for data preprocessing.
-- reward.py         Reward system for reinforcement learning.
-- train_grpo.py     Trains LLM and quantizes the model into Q8_0 GGUF format.
