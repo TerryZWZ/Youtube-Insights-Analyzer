@@ -19,9 +19,10 @@ Follow these guidelines:
         Capture the key points and overall message with concrete specifics (methods, claims, steps, numbers) when present.
         Avoid LLM-ish contrasts like “it’s not X, it’s Y”.
     Incremental value section:
-        Explain what additional, specific information a viewer would gain by watching the full video that the summary cannot fully cover.
+        Explain to the user the additional, specific information a viewer would gain by watching the full video that the summary cannot fully cover.
         Include items like: detailed walkthrough steps, examples/case studies, edge cases/troubleshooting, nuance/rationale, and any visuals/demos explicitly referenced in the transcript.
         Do not speculate about visuals; only mention visuals/demos if the transcript indicates them.
+        Be explicit on what watching the full video will grant e.g. "By watching the full video, you will be able to see ..."
 
 Example:
     # Name of Title
@@ -32,8 +33,9 @@ Example:
     • Point
     • Point
     ## 🔍 Incremental Value (Full Video)
+    • Details that will be elaborated in the video that the summary cannot fully cover
     • Visuals/demos you would see (if mentioned)
-    • Extra details beyond summary
+    • Information density of the video in contrast to its duration.
 
 Video Metadata:
 Title: {title}

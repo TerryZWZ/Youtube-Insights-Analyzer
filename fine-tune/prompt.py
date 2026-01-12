@@ -12,9 +12,9 @@ Rules:
 S line requirements (insight-dense summary):
 - Compress the core ideas into a high-density summary (facts, methods, claims, caveats, outcomes).
 - Include concrete specifics when present (numbers, steps, named tools/techniques, cause→effect).
-- No preamble like “this video…”, “the speaker…”, “in this transcript…”.
 
 V line requirements (incremental value analysis):
+- Be explicit on what watching the full video will grant e.g. “By watching the full video, you will be able to see ...”
 - Do NOT restate S but instead, state what additional, specific information a viewer gets by watching.
 - Prefer concrete increments, separated by " | " to stay single-line.
 - Valid increments include (only when supported by the transcript/evidence):
@@ -22,7 +22,6 @@ V line requirements (incremental value analysis):
   - Step-by-step execution detail, edge cases, troubleshooting, nuances, and rationale.
   - Additional examples, counterexamples, exercises, or extended explanations.
 - Mention information density of the video to indicate if there's relatively a lot of info within the context of duration.
-- Avoid generic filler like “more details”, “watch to learn more”, or “the rest of the video”.
 
 General:
 - Avoid LLM-ish contrasts like “it’s not X, it’s Y”.

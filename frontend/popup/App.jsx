@@ -207,7 +207,7 @@ const App = () => {
 
   return (
     <div className="popup-container">
-      <h1>YouTube Video Summarizer</h1>
+      <h1>YouTube Insights Analyzer</h1>
       <div className="toggle-container">
         <label className="toggle-switch">
           <input

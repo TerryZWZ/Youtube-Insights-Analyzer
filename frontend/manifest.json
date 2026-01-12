@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Video Summarizer",
+  "name": "YouTube Insights Analyzer",
   "version": "1.0",
-  "description": "Summarizes YouTube Videos",
+  "description": "Provides a summary and value analysis",
   "permissions": ["activeTab", "scripting", "tabs", "storage"],
   "host_permissions": ["*://*.youtube.com/*", "*://localhost:8000/*"],
   "action": {
