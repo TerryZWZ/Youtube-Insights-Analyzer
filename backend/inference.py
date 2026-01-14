@@ -9,9 +9,9 @@ def call_llama_server_inference(prompt: list) -> str:
     """
     Call the local inference service (llama-server) to get a summary.
     """
-    llama_url = os.environ.get(config.LLAMA_SERVER_URL)
-    llama_model = os.environ.get(config.LLAMA_SERVER_MODEL)
-    llama_api_key = os.environ.get(config.LLAMA_API_KEY)
+    llama_url = os.environ.get("LLAMA_SERVER_URL", config.LLAMA_SERVER_URL)
+    llama_model = os.environ.get("LLAMA_SERVER_MODEL", config.LLAMA_SERVER_MODEL)
+    llama_api_key = os.environ.get("LLAMA_API_KEY", config.LLAMA_API_KEY)
 
     try:
         if not llama_url:
@@ -32,6 +32,10 @@ def call_llama_server_inference(prompt: list) -> str:
             endpoint, headers=headers, json=payload, stream=True, timeout=60
         ) as response:
             response.raise_for_status()
+
+            if not response.encoding or response.encoding.lower() == "iso-8859-1":
+                response.encoding = "utf-8"
+                
             for line in response.iter_lines(decode_unicode=True):
                 if not line:
                     continue

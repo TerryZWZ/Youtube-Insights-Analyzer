@@ -38,6 +38,7 @@ outputs/
 unsloth_compiled_cache/
 qwen-3-4b-yt/
 qwen-3-4b-yt-gguf/
+Modelfile
 dataset.jsonl
 transcripts.jsonl
 videos.csv
